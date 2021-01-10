@@ -1,0 +1,1 @@
+export {gunzip} from './gunzip';
