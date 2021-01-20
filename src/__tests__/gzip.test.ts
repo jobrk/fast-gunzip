@@ -1,4 +1,5 @@
 import zlib from 'zlib';
+import {gzip} from '../gzip';
 import {gunzip} from '../gunzip';
 
 describe('gunzip', () => {
@@ -32,6 +33,18 @@ describe('gunzip', () => {
     const data = new Uint8Array(dataArr);
     const compressed = zlib.gzipSync(data, {level: 9});
     const uncompressed = gunzip(compressed);
+
+    expect(uncompressed).toEqual(data);
+  });
+});
+
+describe('gzip', () => {
+  test('1', () => {
+    const data = new Uint8Array(
+      Buffer.from('The quick brown fox jumps over the lazy dog.'),
+    );
+    const compressed = gzip(data);
+    const uncompressed = new Uint8Array(zlib.gunzipSync(compressed));
 
     expect(uncompressed).toEqual(data);
   });
